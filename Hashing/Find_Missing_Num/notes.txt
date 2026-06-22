@@ -1,0 +1,533 @@
+===============================
+JAVA DSA NOTES
+HashSet vs HashMap vs ArrayList
+Pattern Recognition Guide
+===============================
+
+
+#########################################
+1. ARRAYLIST
+#########################################
+
+USE ARRAYLIST WHEN:
+
+-> You need to STORE ANSWERS
+-> You need ordered data
+-> You need duplicates allowed
+-> You need dynamic size array
+
+Think:
+
+"I want to collect elements"
+
+Example:
+---------
+Input:
+[1,2,3]
+
+Output:
+[5,6]
+
+You need somewhere to store:
+5 and 6
+
+So:
+ArrayList<Integer> ans = new ArrayList<>();
+
+
+IMPORTANT:
+-----------
+LeetCode often returns:
+List<Integer>
+
+So usually:
+ArrayList is used to store final answer.
+
+
+COMMON METHODS:
+----------------
+
+add()
+get()
+remove()
+size()
+
+Example:
+---------
+
+ArrayList<Integer> list = new ArrayList<>();
+
+list.add(5);
+list.add(10);
+
+System.out.println(list);
+
+Output:
+[5,10]
+
+
+
+#########################################
+2. HASHSET
+#########################################
+
+USE HASHSET WHEN:
+
+-> You only care:
+   PRESENT or NOT PRESENT
+
+-> Need fast lookup
+
+-> Need duplicate detection
+
+-> Frequency NOT needed
+
+Think:
+
+"Does this element exist?"
+
+
+MOST IMPORTANT PATTERN:
+------------------------
+
+if(set.contains(x))
+
+then probably HashSet problem.
+
+
+EXAMPLES:
+----------
+
+Contains Duplicate
+Missing Numbers
+Intersection of Arrays
+Longest Consecutive Sequence
+
+
+HOW HASHSET WORKS:
+-------------------
+
+Unique values only.
+
+Duplicates automatically ignored.
+
+
+Example:
+---------
+
+HashSet<Integer> set = new HashSet<>();
+
+set.add(2);
+set.add(2);
+set.add(2);
+
+System.out.println(set);
+
+Output:
+[2]
+
+
+VERY IMPORTANT:
+----------------
+
+HashSet stores ONLY keys.
+
+No values.
+
+
+TIME COMPLEXITY:
+-----------------
+
+add()       -> O(1)
+contains()  -> O(1)
+remove()    -> O(1)
+
+
+
+#########################################
+3. HASHMAP
+#########################################
+
+USE HASHMAP WHEN:
+
+-> Need FREQUENCY
+-> Need KEY-VALUE pair
+-> Need counting
+-> Need mapping
+
+Think:
+
+"How many times?"
+
+OR
+
+"This key maps to what?"
+
+
+MOST IMPORTANT PATTERN:
+------------------------
+
+map.getOrDefault(x,0)+1
+
+means frequency counting problem.
+
+
+EXAMPLES:
+----------
+
+Frequency count
+Majority Element
+Two Sum
+Anagrams
+Character counting
+
+
+HOW HASHMAP WORKS:
+-------------------
+
+Stores:
+
+KEY -> VALUE
+
+
+Example:
+---------
+
+2 -> 3
+
+means:
+number 2 appears 3 times.
+
+
+Example:
+---------
+
+HashMap<Integer,Integer> map = new HashMap<>();
+
+map.put(2,3);
+
+System.out.println(map);
+
+Output:
+{2=3}
+
+
+
+MOST IMPORTANT FREQUENCY CODE:
+-------------------------------
+
+for(int num : nums){
+
+    map.put(num,
+    map.getOrDefault(num,0)+1);
+}
+
+
+UNDERSTANDING:
+---------------
+
+If number absent:
+default = 0
+
+Then:
+0 + 1
+
+If already present:
+existing count + 1
+
+
+
+#########################################
+4. HOW TO RECOGNISE PATTERN
+#########################################
+
+
+CASE 1:
+---------
+Need only existence checking?
+
+Example:
+---------
+"Find missing numbers"
+
+Question:
+---------
+Is 5 present?
+
+YES/NO only.
+
+USE:
+-----
+HashSet
+
+
+CASE 2:
+---------
+Need counting?
+
+Example:
+---------
+"Find majority element"
+
+Question:
+---------
+How many times does 2 appear?
+
+USE:
+-----
+HashMap
+
+
+CASE 3:
+---------
+Need to return/store answers?
+
+Example:
+---------
+Return all missing numbers
+
+Need:
+-----
+Store [5,6]
+
+USE:
+-----
+ArrayList
+
+
+IMPORTANT:
+-----------
+Many problems use COMBINATION.
+
+
+Example:
+---------
+Find missing numbers
+
+Use:
+-----
+HashSet -> checking existence
+
+ArrayList -> storing final answer
+
+
+THIS IS WHY YOUR QUESTION USED BOTH.
+
+
+#########################################
+5. UNDERSTANDING YOUR PROBLEM
+#########################################
+
+QUESTION:
+----------
+Find all missing numbers.
+
+
+Input:
+-------
+[4,3,2,7,8,2,3,1]
+
+
+STEP 1:
+--------
+Store all existing numbers.
+
+Need:
+-----
+Check presence fast.
+
+USE:
+-----
+HashSet
+
+
+HashSet:
+---------
+[1,2,3,4,7,8]
+
+
+STEP 2:
+--------
+Check numbers from 1 to n.
+
+n = 8
+
+Check:
+1 present?
+2 present?
+3 present?
+4 present?
+5 present?
+6 present?
+7 present?
+8 present?
+
+
+Missing:
+---------
+5 and 6
+
+
+STEP 3:
+--------
+Need to RETURN missing numbers.
+
+Need storage.
+
+USE:
+-----
+ArrayList
+
+
+FINAL:
+-------
+ArrayList:
+[5,6]
+
+
+
+#########################################
+6. COMPLETE CODE WITH LOGIC
+#########################################
+
+import java.util.*;
+
+class Solution {
+
+    public List<Integer> findDisappearedNumbers(int[] nums) {
+
+        // Step 1:
+        // Store numbers for fast lookup
+        HashSet<Integer> set = new HashSet<>();
+
+        for(int num : nums){
+            set.add(num);
+        }
+
+        // Step 2:
+        // Store final missing numbers
+        List<Integer> ans = new ArrayList<>();
+
+        // Step 3:
+        // Check from 1 to n
+        for(int i = 1; i <= nums.length; i++){
+
+            // If number missing
+            if(!set.contains(i)){
+
+                // Store answer
+                ans.add(i);
+            }
+        }
+
+        // Step 4:
+        // Return final list
+        return ans;
+    }
+}
+
+
+
+#########################################
+7. GOLDEN RULES
+#########################################
+
+RULE 1:
+--------
+Presence checking?
+-> HashSet
+
+
+RULE 2:
+--------
+Frequency counting?
+-> HashMap
+
+
+RULE 3:
+--------
+Store answers?
+-> ArrayList
+
+
+RULE 4:
+--------
+Return multiple values?
+-> ArrayList
+
+
+RULE 5:
+--------
+Unique elements only?
+-> HashSet
+
+
+RULE 6:
+--------
+Key -> Value relation?
+-> HashMap
+
+
+
+#########################################
+8. EASY MEMORY TRICK
+#########################################
+
+HashSet:
+---------
+"EXISTS?"
+
+
+HashMap:
+---------
+"HOW MANY?"
+
+
+ArrayList:
+------------
+"STORE ANSWERS"
+
+
+
+#########################################
+9. INTERVIEW THINKING
+#########################################
+
+When solving problem ask:
+
+1.
+Need fast lookup?
+-> HashSet/HashMap
+
+2.
+Need frequency?
+-> HashMap
+
+3.
+Need unique?
+-> HashSet
+
+4.
+Need ordered answer list?
+-> ArrayList
+
+5.
+Need key-value?
+-> HashMap
+
+
+#########################################
+10. MOST IMPORTANT THING
+#########################################
+
+Do NOT memorize solutions.
+
+Instead ask:
+
+WHY this data structure?
+
+After 40-50 questions,
+pattern recognition becomes automatic.
+
+
+END OF NOTES

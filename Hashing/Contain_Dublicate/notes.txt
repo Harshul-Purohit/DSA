@@ -1,0 +1,505 @@
+# HASHMAP / HASHSET NOTES FOR DSA
+
+====================================================
+
+1. MAIN IDEA OF HASHMAP / HASHSET
+   ====================================================
+
+Used for:
+
+* Fast lookup
+* Checking duplicates
+* Frequency counting
+* Storing visited elements
+* Pair finding problems
+
+Time Complexity:
+
+* Search  -> O(1)
+* Insert  -> O(1)
+* Delete  -> O(1)
+
+---
+
+====================================================
+2. WHEN TO USE HASHSET
+======================
+
+Use HashSet when:
+
+* Only checking existence
+* Duplicate checking
+* Unique elements needed
+
+Keywords in questions:
+
+* duplicate
+* distinct
+* unique
+* already seen
+* repeated
+
+Syntax:
+
+HashSet<Integer> set = new HashSet<>();
+
+---
+
+IMPORTANT METHODS:
+
+1. add()
+
+set.add(5);
+
+Adds element.
+
+---
+
+2. contains()
+
+set.contains(5)
+
+Checks if element already exists.
+
+Returns:
+true / false
+
+---
+
+3. remove()
+
+set.remove(5);
+
+Deletes element.
+
+---
+
+4. size()
+
+set.size();
+
+Returns number of elements.
+
+---
+
+EXAMPLE:
+Contains Duplicate
+
+int[] nums = {1,2,3,1};
+
+HashSet<Integer> set = new HashSet<>();
+
+for(int num : nums){
+
+```
+if(set.contains(num)){
+    System.out.println(true);
+    return;
+}
+
+set.add(num);
+```
+
+}
+
+System.out.println(false);
+
+---
+
+PATTERN:
+
+for every element:
+if already seen:
+return true
+else:
+store it
+
+====================================================
+3. WHEN TO USE HASHMAP
+======================
+
+Use HashMap when:
+
+* Need key-value pair
+* Need frequency count
+* Need mapping
+* Need complement lookup
+
+Keywords:
+
+* frequency
+* count
+* mapping
+* store relation
+* pair sum
+
+Syntax:
+
+HashMap<Integer,Integer> map = new HashMap<>();
+
+Format:
+key -> value
+
+Example:
+1 -> 3
+
+Means:
+number 1 appears 3 times
+
+---
+
+IMPORTANT METHODS
+
+1. put()
+
+map.put(key,value);
+
+Example:
+map.put(1,5);
+
+---
+
+2. get()
+
+map.get(key);
+
+Returns value.
+
+Example:
+map.get(1)
+
+---
+
+3. containsKey()
+
+map.containsKey(key)
+
+Checks if key exists.
+
+Returns:
+true / false
+
+---
+
+4. remove()
+
+map.remove(key)
+
+---
+
+5. replace()
+
+map.replace(key,newValue)
+
+---
+
+====================================================
+4. MOST IMPORTANT PATTERNS
+==========================
+
+---
+
+## PATTERN 1 -> DUPLICATES / UNIQUE
+
+Question keywords:
+
+* duplicate
+* repeated
+* distinct
+* unique
+
+Use:
+HashSet or HashMap
+
+Logic:
+check before inserting
+
+Example:
+Contains Duplicate
+
+if(set.contains(num)){
+return true;
+}
+
+set.add(num);
+
+---
+
+## PATTERN 2 -> FREQUENCY COUNT
+
+Question keywords:
+
+* count frequency
+* occurrence
+* majority element
+* anagram
+
+Use:
+HashMap
+
+Logic:
+
+if(map.containsKey(num)){
+map.put(num, map.get(num)+1);
+}
+else{
+map.put(num,1);
+}
+
+---
+
+EXAMPLE:
+
+Array:
+[1,1,2,3,3,3]
+
+Result map:
+
+1 -> 2
+2 -> 1
+3 -> 3
+
+---
+
+## PATTERN 3 -> TWO SUM
+
+Question keywords:
+
+* target
+* pair sum
+* two numbers add
+
+Use:
+HashMap
+
+IMPORTANT IDEA:
+complement = target - nums[i]
+
+Example:
+
+target = 9
+nums[i] = 2
+
+Need:
+7
+
+---
+
+CODE:
+
+HashMap<Integer,Integer> map = new HashMap<>();
+
+for(int i=0;i<nums.length;i++){
+
+```
+int complement = target - nums[i];
+
+if(map.containsKey(complement)){
+    return new int[]{map.get(complement), i};
+}
+
+map.put(nums[i], i);
+```
+
+}
+
+---
+
+IMPORTANT:
+
+Contains Duplicate:
+"Have I seen this number before?"
+
+Two Sum:
+"What number do I need to complete target?"
+
+====================================================
+5. HOW TO IDENTIFY PATTERN IN INTERVIEW
+=======================================
+
+---
+
+## If question says:
+
+duplicate
+repeat
+distinct
+unique
+
+THINK:
+HashSet / contains()
+
+---
+
+count
+frequency
+occurrence
+
+THINK:
+HashMap + get() + put()
+
+---
+
+target
+pair
+sum
+
+THINK:
+complement = target - nums[i]
+
+---
+
+window
+substring
+continuous
+
+THINK:
+Sliding Window
+
+---
+
+sorted array
+
+THINK:
+Two Pointer
+
+---
+
+tree
+
+THINK:
+DFS / BFS / Recursion
+
+---
+
+shortest path
+
+THINK:
+Graph / BFS / Dijkstra
+
+====================================================
+6. MOST IMPORTANT THING TO REMEMBER
+===================================
+
+ALWAYS ASK:
+
+1. Do I need fast lookup?
+   -> HashMap / HashSet
+
+2. Do I only care existence?
+   -> HashSet
+
+3. Do I need count/value?
+   -> HashMap
+
+4. Do I need pair sum?
+   -> complement logic
+
+====================================================
+7. COMMON BEGINNER MISTAKES
+===========================
+
+MISTAKE 1:
+Checking after insertion
+
+Wrong:
+
+set.add(num);
+
+if(set.contains(num))
+
+This always becomes true.
+
+---
+
+Correct:
+
+if(set.contains(num)){
+}
+
+set.add(num);
+
+---
+
+MISTAKE 2:
+Confusing key and value
+
+map.put(1,1)
+
+First 1 = key
+Second 1 = value
+
+containsKey() checks ONLY key.
+
+---
+
+MISTAKE 3:
+Using complement logic in wrong problem
+
+Complement logic only for:
+
+* Two Sum
+* Pair target problems
+
+NOT for duplicates.
+
+====================================================
+8. SIMPLE MEMORY TRICKS
+=======================
+
+Duplicate?
+-> Have I seen before?
+-> HashSet
+
+---
+
+Frequency?
+-> Count occurrences
+-> HashMap
+
+---
+
+Target sum?
+-> What number do I need?
+-> complement = target - nums[i]
+
+====================================================
+9. BEST WAY TO PRACTICE
+=======================
+
+Practice in this order:
+
+1. Contains Duplicate
+2. Valid Anagram
+3. Two Sum
+4. Majority Element
+5. Group Anagrams
+6. Longest Substring Without Repeating Characters
+
+These build HashMap mastery.
+
+====================================================
+10. GOLDEN RULE
+===============
+
+Before coding ask:
+
+"What exactly am I storing?"
+
+Examples:
+
+Contains Duplicate:
+store seen numbers
+
+Two Sum:
+store previous numbers and indices
+
+Frequency count:
+store number and count
+
+If you know WHAT to store,
+the solution becomes easy.
+
+====================================================
+END OF NOTES
+============

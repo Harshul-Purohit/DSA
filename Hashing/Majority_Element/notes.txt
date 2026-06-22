@@ -1,0 +1,747 @@
+===============================
+LEETCODE 169 : MAJORITY ELEMENT
+COMPLETE NOTES
+===============================
+
+---------------------------------
+1. QUESTION
+---------------------------------
+
+Given an array nums of size n,
+return the majority element.
+
+Majority element means:
+The element that appears MORE THAN n/2 times.
+
+Example:
+
+Input:
+[2,2,1,1,1,2,2]
+
+Output:
+2
+
+Because:
+2 appears 4 times
+n = 7
+n/2 = 3
+4 > 3
+So answer = 2
+
+
+=================================
+2. COMPLETE HASHMAP SOLUTION
+=================================
+
+Code:
+
+import java.util.HashMap;
+
+class Solution {
+
+    public int majorityElement(int[] nums) {
+
+        int n = nums.length;
+
+        HashMap<Integer, Integer> map = new HashMap<>();
+
+        // Counting frequency
+        for (int num : nums) {
+
+            if (map.containsKey(num)) {
+
+                int freq = map.get(num);
+                map.put(num, freq + 1);
+
+            } else {
+
+                map.put(num, 1);
+            }
+        }
+
+        // Finding majority element
+        for (int key : map.keySet()) {
+
+            if (map.get(key) > n / 2) {
+                return key;
+            }
+        }
+
+        return -1;
+    }
+}
+
+
+=================================
+3. WHAT IS HASHMAP ?
+=================================
+
+HashMap stores data in:
+
+KEY -> VALUE pair
+
+Example:
+
+Roll No -> Name
+101 -> Rahul
+
+In this question:
+
+Number -> Frequency
+
+Example:
+
+2 -> 4
+1 -> 3
+
+Meaning:
+
+Number 2 appears 4 times
+Number 1 appears 3 times
+
+
+=================================
+4. WHY WE USED HASHMAP HERE ?
+=================================
+
+Because we need FREQUENCY COUNTING.
+
+HashMap helps us:
+
+1. Store counts
+2. Search quickly
+3. Update frequency easily
+
+This is the most common pattern for:
+- frequency
+- duplicates
+- occurrences
+- counting
+
+
+=================================
+5. UNDERSTANDING EACH LINE
+=================================
+
+---------------------------------
+LINE 1
+---------------------------------
+
+HashMap<Integer, Integer> map = new HashMap<>();
+
+Meaning:
+
+Creating a HashMap.
+
+First Integer = KEY
+Second Integer = VALUE
+
+So:
+
+KEY = number
+VALUE = frequency
+
+Example:
+
+2 -> 4
+1 -> 3
+
+
+---------------------------------
+LINE 2
+---------------------------------
+
+for (int num : nums)
+
+Meaning:
+
+Traverse every element of array.
+
+Example:
+
+nums = [2,2,1,1,1,2,2]
+
+Iteration:
+
+num = 2
+num = 2
+num = 1
+num = 1
+...
+
+
+=================================
+6. WHY map.containsKey(num) ?
+=================================
+
+Code:
+
+if(map.containsKey(num))
+
+Meaning:
+
+Check whether number already exists in map.
+
+Example:
+
+Map:
+
+2 -> 3
+
+Now current num = 2
+
+containsKey(2) = true
+
+Because 2 already exists.
+
+
+---------------------------------
+WHY NOT containsValue() ?
+---------------------------------
+
+containsKey() checks keys.
+
+containsValue() checks values.
+
+Our structure:
+
+number -> frequency
+
+Example:
+
+2 -> 4
+
+KEY = 2
+VALUE = 4
+
+We want to check:
+"Does number already exist?"
+
+So we use:
+
+containsKey()
+
+
+=================================
+7. WHY map.get(num) ?
+=================================
+
+Code:
+
+int freq = map.get(num);
+
+Meaning:
+
+Get frequency of current number.
+
+Example:
+
+Map:
+
+2 -> 3
+
+Then:
+
+map.get(2)
+
+returns:
+
+3
+
+
+=================================
+8. WHY map.put(num, freq + 1) ?
+=================================
+
+Code:
+
+map.put(num, freq + 1);
+
+Meaning:
+
+Update frequency.
+
+Example:
+
+Current map:
+
+2 -> 3
+
+New 2 found.
+
+New frequency becomes:
+
+2 -> 4
+
+So:
+
+map.put(2, 4)
+
+
+=================================
+9. WHY ELSE PART ?
+=================================
+
+Code:
+
+else {
+    map.put(num,1);
+}
+
+Meaning:
+
+If number appears first time,
+frequency = 1
+
+Example:
+
+Current num = 5
+
+Map does not contain 5.
+
+So:
+
+5 -> 1
+
+
+=================================
+10. HOW MAP BUILDS STEP BY STEP
+=================================
+
+Array:
+
+[2,2,1,1,1,2,2]
+
+---------------------------------
+STEP 1
+---------------------------------
+
+num = 2
+
+Map empty
+
+Add:
+
+2 -> 1
+
+---------------------------------
+STEP 2
+---------------------------------
+
+num = 2
+
+Already exists
+
+Update:
+
+2 -> 2
+
+---------------------------------
+STEP 3
+---------------------------------
+
+num = 1
+
+Not exists
+
+Add:
+
+1 -> 1
+
+---------------------------------
+STEP 4
+---------------------------------
+
+num = 1
+
+Update:
+
+1 -> 2
+
+---------------------------------
+STEP 5
+---------------------------------
+
+num = 1
+
+Update:
+
+1 -> 3
+
+---------------------------------
+STEP 6
+---------------------------------
+
+num = 2
+
+Update:
+
+2 -> 3
+
+---------------------------------
+STEP 7
+---------------------------------
+
+num = 2
+
+Update:
+
+2 -> 4
+
+Final Map:
+
+2 -> 4
+1 -> 3
+
+
+=================================
+11. WHY map.keySet() ?
+=================================
+
+Code:
+
+for(int key : map.keySet())
+
+Meaning:
+
+Get ALL KEYS from map.
+
+Example:
+
+Map:
+
+2 -> 4
+1 -> 3
+
+keySet() gives:
+
+[2,1]
+
+Now loop runs:
+
+key = 2
+key = 1
+
+
+---------------------------------
+WHY WE NEED keySet() ?
+---------------------------------
+
+Because we want to check every number.
+
+We need to see whose frequency > n/2
+
+
+=================================
+12. WHY map.get(key) > n/2 ?
+=================================
+
+Code:
+
+if(map.get(key) > n/2)
+
+Meaning:
+
+Check frequency.
+
+Example:
+
+Map:
+
+2 -> 4
+1 -> 3
+
+n = 7
+
+n/2 = 3
+
+Check:
+
+map.get(2) = 4
+
+4 > 3
+
+TRUE
+
+Return 2.
+
+
+---------------------------------
+VERY IMPORTANT
+---------------------------------
+
+WRONG:
+
+if(key > n/2)
+
+Because key means actual number.
+
+Example:
+
+key = 2
+
+We need frequency,
+NOT number.
+
+
+=================================
+13. WHY RETURN KEY ?
+=================================
+
+Code:
+
+return key;
+
+Because key is actual majority element.
+
+Example:
+
+2 -> 4
+
+Key = 2
+
+Frequency = 4
+
+Answer should be 2.
+
+
+=================================
+14. DRY RUN COMPLETE
+=================================
+
+nums = [3,3,4]
+
+n = 3
+
+Map building:
+
+3 -> 1
+3 -> 2
+4 -> 1
+
+Final map:
+
+3 -> 2
+4 -> 1
+
+Checking:
+
+map.get(3) = 2
+
+2 > 3/2
+
+2 > 1
+
+TRUE
+
+Return 3
+
+
+=================================
+15. TIME COMPLEXITY
+=================================
+
+Loop 1:
+O(n)
+
+Loop 2:
+O(n)
+
+Overall:
+O(n)
+
+=================================
+16. SPACE COMPLEXITY
+=================================
+
+HashMap stores frequencies.
+
+Worst case:
+Every element unique.
+
+Space:
+O(n)
+
+
+=================================
+17. IMPORTANT HASHMAP FUNCTIONS
+=================================
+
+---------------------------------
+1. put()
+---------------------------------
+
+map.put(key,value)
+
+Insert/update value.
+
+Example:
+
+map.put(2,4)
+
+---------------------------------
+2. get()
+---------------------------------
+
+map.get(key)
+
+Returns value.
+
+Example:
+
+map.get(2)
+
+returns 4
+
+---------------------------------
+3. containsKey()
+---------------------------------
+
+Checks whether key exists.
+
+Example:
+
+map.containsKey(2)
+
+returns true
+
+---------------------------------
+4. keySet()
+---------------------------------
+
+Returns all keys.
+
+Example:
+
+[2,1,5]
+
+---------------------------------
+5. remove()
+---------------------------------
+
+Deletes key.
+
+map.remove(2)
+
+---------------------------------
+6. size()
+---------------------------------
+
+Returns size of map.
+
+
+=================================
+18. HOW TO IDENTIFY HASHMAP QUESTIONS
+=================================
+
+Use HashMap when question contains:
+
+- frequency
+- counting
+- duplicate
+- repeated
+- occurrence
+- majority
+- pair
+- mapping
+- lookup
+
+Examples:
+
+Two Sum
+Majority Element
+Contains Duplicate
+Valid Anagram
+Top K Frequent Elements
+
+
+=================================
+19. MOST IMPORTANT LEARNING
+=================================
+
+HashMap Pattern:
+
+STEP 1:
+Check exists or not
+
+STEP 2:
+If exists:
+update frequency
+
+STEP 3:
+Else:
+insert with 1
+
+Template:
+
+for(int num : nums){
+
+    if(map.containsKey(num)){
+        map.put(num, map.get(num)+1);
+    }
+    else{
+        map.put(num,1);
+    }
+}
+
+
+=================================
+20. INTERVIEW UNDERSTANDING
+=================================
+
+Why HashMap solution is good?
+
+Because:
+
+- Easy to understand
+- Easy to implement
+- Efficient
+- O(n) time
+
+But:
+Space complexity is O(n)
+
+Optimal solution:
+Boyer Moore Voting Algorithm
+
+Time:
+O(n)
+
+Space:
+O(1)
+
+
+=================================
+21. FINAL REVISION
+=================================
+
+HashMap stores:
+
+number -> frequency
+
+containsKey():
+checks number exists or not
+
+get():
+gets frequency
+
+put():
+updates frequency
+
+keySet():
+gives all numbers
+
+map.get(key):
+gets frequency of key
+
+Condition:
+
+frequency > n/2
+
+Return:
+the number having majority frequency
+
+
+===============================
+END OF NOTES
+===============================

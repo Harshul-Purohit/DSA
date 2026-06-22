@@ -1,0 +1,346 @@
+===============================
+LEETCODE NOTES — TWO SUM
+===============================
+
+PROBLEM:
+---------
+Given an array and a target,
+find indices of two numbers
+whose sum equals target.
+
+Example:
+nums = [2,7,11,15]
+target = 9
+
+Output:
+[0,1]
+
+Because:
+2 + 7 = 9
+
+
+========================================
+1. WHAT SHOULD I LEARN FROM THIS PROBLEM?
+========================================
+
+MAIN LEARNING:
+---------------
+How to optimize brute force using HashMap.
+
+This is one of the MOST IMPORTANT beginner patterns.
+
+
+========================================
+2. FIRST THINKING (BRUTE FORCE)
+========================================
+
+Normal human thinking:
+----------------------
+Check every pair.
+
+Code idea:
+-----------
+for every i
+    for every j
+        check nums[i] + nums[j]
+
+This works.
+
+TIME COMPLEXITY:
+----------------
+O(n²)
+
+Why?
+-----
+Nested loops.
+
+
+========================================
+3. WHAT IS THE PROBLEM WITH BRUTE FORCE?
+========================================
+
+We repeat too much work.
+
+Example:
+---------
+For every number,
+we again search all other numbers.
+
+This becomes slow for large arrays.
+
+
+========================================
+4. OPTIMIZATION THINKING
+========================================
+
+Important Interview Question:
+------------------------------
+Can we avoid checking every pair?
+
+YES.
+
+We store previous numbers while traversing.
+
+
+========================================
+5. MAIN PATTERN USED
+========================================
+
+PATTERN:
+---------
+HashMap + Complement Search
+
+This is called:
+----------------
+"Lookup While Traversing"
+
+
+========================================
+6. CORE LOGIC
+========================================
+
+Formula:
+---------
+target = current + complement
+
+Therefore:
+------------
+complement = target - current
+
+For every number:
+------------------
+1. Find needed complement
+2. Check if complement already exists
+3. If yes -> answer found
+4. Else store current number
+
+
+========================================
+7. WHY HASHMAP?
+========================================
+
+HashMap gives:
+---------------
+Fast searching.
+
+containsKey() -> O(1)
+put() -> O(1)
+
+Overall complexity:
+-------------------
+O(n)
+
+
+========================================
+8. IMPORTANT OBSERVATION
+========================================
+
+Question asks:
+---------------
+RETURN INDICES
+
+Not values.
+
+So store:
+-----------
+number -> index
+
+Example:
+---------
+2 -> 0
+7 -> 1
+11 -> 2
+
+
+========================================
+9. OPTIMAL CODE
+========================================
+
+import java.util.HashMap;
+
+class Solution {
+
+    public int[] twoSum(int[] nums, int target) {
+
+        HashMap<Integer, Integer> map = new HashMap<>();
+
+        for (int i = 0; i < nums.length; i++) {
+
+            int complement = target - nums[i];
+
+            if (map.containsKey(complement)) {
+
+                return new int[] { map.get(complement), i };
+            }
+
+            map.put(nums[i], i);
+        }
+
+        return new int[] {};
+    }
+}
+
+
+========================================
+10. DRY RUN
+========================================
+
+nums = [2,7,11,15]
+target = 9
+
+STEP 1:
+--------
+current = 2
+need = 7
+
+7 not found.
+
+Store:
+2 -> 0
+
+STEP 2:
+--------
+current = 7
+need = 2
+
+2 found in map.
+
+Return:
+[0,1]
+
+
+========================================
+11. WHY CHECK BEFORE PUT?
+========================================
+
+Case:
+------
+[3,3]
+
+target = 6
+
+If we put first,
+same element may be reused.
+
+Correct order:
+---------------
+1. check complement
+2. then put current number
+
+
+========================================
+12. TIME COMPLEXITY
+========================================
+
+BRUTE FORCE:
+-------------
+O(n²)
+
+HASHMAP:
+----------
+O(n)
+
+SPACE:
+-------
+O(n)
+
+
+========================================
+13. HOW TO RECOGNIZE THIS PATTERN?
+========================================
+
+If question contains:
+----------------------
+
+- pair sum
+- target sum
+- find quickly
+- reduce time complexity
+- lookup required
+- repeated searching
+
+THINK:
+-------
+HashMap
+
+
+========================================
+14. QUESTIONS USING SAME PATTERN
+========================================
+
+- Two Sum
+- Contains Duplicate
+- Group Anagrams
+- Top K Frequent Elements
+- Subarray Sum Equals K
+- Longest Consecutive Sequence
+
+Most use:
+-----------
+HashMap / HashSet
+
+
+========================================
+15. INTERVIEW THINKING PROCESS
+========================================
+
+STEP 1:
+--------
+Write brute force first.
+
+STEP 2:
+--------
+Ask:
+"Am I repeating work?"
+
+STEP 3:
+--------
+Ask:
+"Can I store previous results?"
+
+STEP 4:
+--------
+Use HashMap for fast lookup.
+
+
+========================================
+16. GOLDEN RULE
+========================================
+
+If problem says:
+-----------------
+Find something quickly in array
+
+THINK:
+-------
+HashMap / HashSet
+
+
+========================================
+17. WHAT I SHOULD REMEMBER
+========================================
+
+1. Brute force is okay first.
+2. Optimization is important.
+3. HashMap is used for fast lookup.
+4. Complement formula is key:
+   complement = target - current
+5. Store:
+   number -> index
+6. Check before inserting.
+7. Pattern matters more than memorizing code.
+
+
+========================================
+18. BIGGEST LESSON
+========================================
+
+Do NOT memorize solutions.
+
+Learn:
+-------
+HOW the solution was discovered.
+
+Real coding skill is:
+----------------------
+Pattern recognition + optimization thinking.
