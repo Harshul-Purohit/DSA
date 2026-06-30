@@ -1,0 +1,458 @@
+==============================
+SORTED SQUARES OF ARRAY NOTES
+==============================
+
+Question:
+Given a sorted array, return squares of each number in sorted order.
+
+Example:
+Input:
+[-4,-1,0,3,10]
+
+Squares:
+[16,1,0,9,100]
+
+Sorted Answer:
+[0,1,9,16,100]
+
+
+
+========================================
+1. MY FIRST APPROACH (BRUTE FORCE)
+========================================
+
+Logic:
+1. Square every element
+2. Store in new array/list
+3. Sort the result
+
+Code Complexity:
+O(n log n)
+
+Why?
+Because sorting takes O(n log n)
+
+This solution is CORRECT but NOT optimal.
+
+
+
+========================================
+2. OPTIMAL APPROACH
+========================================
+
+Use:
+TWO POINTERS
+
+Time Complexity:
+O(n)
+
+Why O(n)?
+Because we traverse array only once.
+
+
+
+========================================
+3. MAIN OBSERVATION
+========================================
+
+Input array is already sorted.
+
+Example:
+[-4,-1,0,3,10]
+
+Largest square can come from:
+LEFT SIDE OR RIGHT SIDE
+
+Because:
+(-4)^2 = 16
+(10)^2 = 100
+
+Middle elements can never produce largest value first.
+
+THIS observation creates the two pointer logic.
+
+
+
+========================================
+4. HOW TO RECOGNISE TWO POINTER QUESTIONS
+========================================
+
+Most important section.
+
+Whenever you see:
+
+1. Sorted array
+2. Pair comparison
+3. Need largest/smallest from ends
+4. Need O(n) optimization
+5. Opposite side movement
+
+Think:
+"TWO POINTERS"
+
+----------------------------------------
+
+Common hints:
+
+Hint 1:
+Array is sorted
+
+Hint 2:
+Compare left and right values
+
+Hint 3:
+Need to avoid nested loops
+
+Hint 4:
+Largest/smallest may come from extremes
+
+Hint 5:
+Question asks for O(n)
+
+----------------------------------------
+
+Examples of Two Pointer Problems:
+
+1. Two Sum II
+2. Container With Most Water
+3. Valid Palindrome
+4. 3Sum
+5. Sorted Squares
+6. Move Zeroes
+7. Remove Duplicates
+
+
+
+========================================
+5. HOW TO THINK LIKE DSA
+========================================
+
+Normal thinking:
+"What code should I write?"
+
+DSA thinking:
+"What observation exists?"
+
+Observation creates logic.
+Logic creates code.
+
+----------------------------------------
+
+For every array question ask:
+
+1. Is array sorted?
+2. Can I use left/right movement?
+3. Can answer come from extremes?
+4. Can I avoid extra loops?
+5. Do I need largest or smallest first?
+6. Am I repeatedly calculating something?
+
+These questions build problem solving ability.
+
+
+
+========================================
+6. COMPLETE CODE
+========================================
+
+class Solution {
+
+    public int[] sortedSquares(int[] nums) {
+
+        int n = nums.length;
+
+        int[] ans = new int[n];
+
+        int left = 0;
+        int right = n - 1;
+
+        int index = n - 1;
+
+        while(left <= right) {
+
+            int leftSquare = nums[left] * nums[left];
+            int rightSquare = nums[right] * nums[right];
+
+            if(leftSquare > rightSquare) {
+
+                ans[index] = leftSquare;
+                left++;
+
+            } else {
+
+                ans[index] = rightSquare;
+                right--;
+            }
+
+            index--;
+        }
+
+        return ans;
+    }
+}
+
+
+
+========================================
+7. LINE BY LINE EXPLANATION
+========================================
+
+----------------------------------------
+LINE:
+int n = nums.length;
+----------------------------------------
+
+Stores size of array.
+
+Example:
+n = 5
+
+
+
+----------------------------------------
+LINE:
+int[] ans = new int[n];
+----------------------------------------
+
+Creates result array.
+
+Initially:
+[0,0,0,0,0]
+
+
+
+----------------------------------------
+LINE:
+int left = 0;
+----------------------------------------
+
+Left pointer starts from beginning.
+
+left -> -4
+
+
+
+----------------------------------------
+LINE:
+int right = n - 1;
+----------------------------------------
+
+Right pointer starts from end.
+
+right -> 10
+
+
+
+----------------------------------------
+LINE:
+int index = n - 1;
+----------------------------------------
+
+We fill answer array from back.
+
+Why?
+
+Because largest square should be placed at end.
+
+
+
+----------------------------------------
+LINE:
+while(left <= right)
+----------------------------------------
+
+Loop runs until pointers cross.
+
+
+
+----------------------------------------
+LINE:
+int leftSquare = nums[left] * nums[left];
+----------------------------------------
+
+Calculates left square.
+
+Example:
+(-4)^2 = 16
+
+
+
+----------------------------------------
+LINE:
+int rightSquare = nums[right] * nums[right];
+----------------------------------------
+
+Calculates right square.
+
+Example:
+10^2 = 100
+
+
+
+----------------------------------------
+LINE:
+if(leftSquare > rightSquare)
+----------------------------------------
+
+Check which square is larger.
+
+Because we are filling answer array from END.
+
+So we must place BIGGER value first.
+
+
+
+----------------------------------------
+LINE:
+ans[index] = leftSquare;
+----------------------------------------
+
+Store bigger value.
+
+
+
+----------------------------------------
+LINE:
+left++;
+----------------------------------------
+
+Move left pointer.
+
+Why?
+Because left value already used.
+
+
+
+----------------------------------------
+LINE:
+right--;
+----------------------------------------
+
+Move right pointer.
+
+Why?
+Because right value already used.
+
+
+
+----------------------------------------
+LINE:
+index--;
+----------------------------------------
+
+Move result array position backward.
+
+
+
+========================================
+8. IMPORTANT RULE
+========================================
+
+If filling from END:
+Store BIGGER value
+
+If filling from START:
+Store SMALLER value
+
+This is one of the most important two pointer rules.
+
+
+
+========================================
+9. DRY RUN
+========================================
+
+Input:
+[-4,-1,0,3,10]
+
+Step 1:
+16 vs 100
+
+Store 100 at end
+
+[_,_,_,_,100]
+
+Step 2:
+16 vs 9
+
+Store 16
+
+[_,_,_,16,100]
+
+Step 3:
+1 vs 9
+
+Store 9
+
+[_,_,9,16,100]
+
+Continue...
+
+Final:
+[0,1,9,16,100]
+
+
+
+========================================
+10. COMMON MISTAKES
+========================================
+
+Mistake 1:
+Wrong comparison direction
+
+Mistake 2:
+Storing smaller value at end
+
+Mistake 3:
+Forgetting index--
+
+Mistake 4:
+Confusing left/right movement
+
+Mistake 5:
+Not understanding WHY pointers move
+
+
+
+========================================
+11. HOW TO IMPROVE TWO POINTERS
+========================================
+
+Practice in this order:
+
+1. Move Zeroes
+2. Remove Duplicates
+3. Valid Palindrome
+4. Two Sum II
+5. Sorted Squares
+6. Container With Most Water
+7. 3Sum
+
+Do NOT memorize code.
+
+Always ask:
+"Why are pointers moving?"
+
+
+
+========================================
+12. FINAL LEARNING
+========================================
+
+You are not weak at two pointers.
+
+You are currently learning:
+1. Observations
+2. Pointer movement
+3. Placement logic
+
+This takes practice.
+
+The important thing:
+You already understood:
+- sorting issue
+- squaring issue
+- left/right comparison
+- result array idea
+
+That means your DSA thinking has already started improving.

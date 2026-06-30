@@ -1,0 +1,443 @@
+MOST IMPORTANT RULE
+
+Coding is NOT typing.
+Coding = converting thinking into steps.
+
+You already understand some logic.
+Your current problem is:
+
+"How do I convert thinking into code?"
+
+This is normal in DSA beginning stage.
+
+--------------------------------------------------
+
+HOW TO THINK IN DSA
+
+Always ask these 5 questions:
+
+1. What is the problem asking?
+2. What should happen first?
+3. What should happen last?
+4. What data should I track?
+5. Which loop/pattern can do this?
+
+--------------------------------------------------
+
+EXAMPLE:
+MOVE ZEROES
+
+Input:
+[0,1,0,3,12]
+
+Output:
+[1,3,12,0,0]
+
+--------------------------------------------------
+
+STEP 1 → UNDERSTAND GOAL
+
+Question is NOT asking:
+
+"Sort entire array"
+
+Question is asking:
+
+"Move all non-zero elements forward"
+
+This is ARRAY REARRANGEMENT.
+
+--------------------------------------------------
+
+STEP 2 → FIND IMPORTANT ELEMENT
+
+Important element:
+
+Non-zero numbers
+
+Unimportant element:
+
+0
+
+--------------------------------------------------
+
+STEP 3 → THINK POSITIONALLY
+
+Ask:
+
+"Where should next non-zero number go?"
+
+This creates the need for:
+
+index
+
+--------------------------------------------------
+
+WHAT DOES index MEAN?
+
+index stores:
+
+"The next correct position to fill"
+
+Initially:
+
+index = 0
+
+Meaning:
+
+First non-zero number should go at position 0.
+
+--------------------------------------------------
+
+UNDERSTANDING index++
+
+VERY IMPORTANT
+
+Suppose:
+
+index = 0
+
+You place 1 at nums[0].
+
+Now next non-zero should go at next position.
+
+So:
+
+index++
+
+means:
+
+Move to next empty correct position.
+
+--------------------------------------------------
+
+VISUALIZATION
+
+Array:
+[0,1,0,3,12]
+
+Initially:
+
+index = 0
+
+--------------------------------------------------
+
+READ 0
+
+Ignore.
+
+index still 0
+
+--------------------------------------------------
+
+READ 1
+
+Put at nums[index]
+
+nums[0] = 1
+
+Array becomes:
+[1,1,0,3,12]
+
+Now:
+
+index++
+
+index becomes 1
+
+--------------------------------------------------
+
+READ 0
+
+Ignore.
+
+--------------------------------------------------
+
+READ 3
+
+Put at nums[1]
+
+Array:
+[1,3,0,3,12]
+
+index becomes 2
+
+--------------------------------------------------
+
+READ 12
+
+Put at nums[2]
+
+Array:
+[1,3,12,3,12]
+
+--------------------------------------------------
+
+NOW FILL REMAINING WITH 0
+
+Remaining positions:
+
+3 and 4
+
+Final:
+[1,3,12,0,0]
+
+--------------------------------------------------
+
+MOST IMPORTANT DSA SKILL
+
+NEVER THINK:
+
+"What code should I write?"
+
+FIRST THINK:
+
+"What information must I remember while traversing?"
+
+That information becomes:
+- variable
+- pointer
+- hashmap
+- counter
+- index
+
+--------------------------------------------------
+
+WHEN TO USE TWO POINTER PATTERN
+
+Use Two Pointers when:
+
+1. Rearranging array
+2. Moving elements
+3. Comparing from both ends
+4. Keeping track of positions
+5. Sliding problems
+6. Removing duplicates
+7. Moving zeros
+8. Sorting colors
+
+--------------------------------------------------
+
+TWO POINTER THINKING
+
+One pointer:
+Reads data
+
+Second pointer:
+Stores correct position
+
+--------------------------------------------------
+
+PATTERN RECOGNITION GUIDE
+
+--------------------------------------------------
+
+1. FREQUENCY / COUNTING QUESTIONS
+
+Questions like:
+- Majority Element
+- Contains Duplicate
+- Frequency Count
+
+USE:
+HashMap
+
+THINK:
+"I need count of elements"
+
+--------------------------------------------------
+
+2. UNIQUE ELEMENT QUESTIONS
+
+Questions like:
+- Contains Duplicate
+- Distinct values
+
+USE:
+HashSet
+
+THINK:
+"I only care if element exists"
+
+--------------------------------------------------
+
+3. ARRAY REARRANGEMENT
+
+Questions like:
+- Move Zeroes
+- Remove Duplicates
+- Sort Colors
+
+USE:
+Two Pointers
+
+THINK:
+"I need correct placement"
+
+--------------------------------------------------
+
+4. WINDOW QUESTIONS
+
+Questions like:
+- Longest substring
+- Maximum sum subarray
+
+USE:
+Sliding Window
+
+THINK:
+"I need continuous section"
+
+--------------------------------------------------
+
+5. PREFIX SUM QUESTIONS
+
+Questions like:
+- Range Sum
+- Subarray Sum
+
+USE:
+Prefix Sum
+
+THINK:
+"I need previous sums"
+
+--------------------------------------------------
+
+6. SORTING QUESTIONS
+
+Questions like:
+- Arrange ascending
+- Largest/smallest order
+
+USE:
+Sorting
+
+THINK:
+"I need order"
+
+--------------------------------------------------
+
+WHY YOU FEEL STUCK
+
+Because currently:
+
+You understand logic in English,
+but not in variable movement.
+
+THIS IS NORMAL.
+
+DSA becomes easier when you learn:
+
+"Which variable stores what information"
+
+--------------------------------------------------
+
+HOW TO PRACTICE
+
+For every problem:
+
+Write these before coding:
+
+1. What am I tracking?
+2. Why do I need this variable?
+3. When should it change?
+4. What does each loop do?
+
+--------------------------------------------------
+
+EXAMPLE
+
+int index = 0;
+
+Meaning:
+"Tracks next correct position"
+
+index++;
+
+Meaning:
+"Move to next available position"
+
+--------------------------------------------------
+
+IMPORTANT CODING HABIT
+
+After writing each variable:
+
+Write its purpose in comment.
+
+Example:
+
+int index = 0; // next correct position
+
+This improves thinking speed massively.
+
+--------------------------------------------------
+
+BIGGEST DSA SECRET
+
+Good coders do NOT memorize code.
+
+They memorize:
+- patterns
+- variable purpose
+- movement logic
+
+--------------------------------------------------
+
+MOST IMPORTANT THING TO IMPROVE
+
+While solving:
+
+DO NOT RUSH TO CODE.
+
+First dry run manually on paper.
+
+Example:
+[0,1,0,3,12]
+
+Track:
+- i
+- index
+- array changes
+
+This builds coding intuition.
+
+--------------------------------------------------
+
+HOW TO KNOW WHICH PATTERN TO USE
+
+Ask these questions:
+
+1. Need counting?
+→ HashMap
+
+2. Need uniqueness?
+→ HashSet
+
+3. Need rearrangement?
+→ Two Pointers
+
+4. Need continuous section?
+→ Sliding Window
+
+5. Need order?
+→ Sorting
+
+6. Need previous cumulative info?
+→ Prefix Sum
+
+--------------------------------------------------
+
+FINAL IMPORTANT POINT
+
+You are NOT weak in logic.
+
+You are currently learning:
+
+"How to translate thinking into variables and loops"
+
+That skill comes only from:
+- dry runs
+- repeated practice
+- pattern recognition
