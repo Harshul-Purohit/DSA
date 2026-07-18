@@ -1,0 +1,506 @@
+========================================================
+SUBARRAY SUM DIVISIBLE BY K — COMPLETE NOTES
+========================================================
+
+PROBLEM TYPE
+--------------------------------------------------------
+Find whether there exists a continuous subarray
+of size at least 2 whose sum is divisible by k.
+
+Example:
+nums = [23,2,4,6,7]
+k = 6
+
+Output:
+true
+
+Because:
+[2,4] -> sum = 6
+6 % 6 = 0
+
+
+========================================================
+MAIN IDEA
+========================================================
+
+This problem is NOT about:
+
+    num - k
+
+This problem IS about:
+
+    prefix sum
+    modulo
+    hashmap
+
+The MOST IMPORTANT concept:
+
+If two prefix sums have same remainder when divided by k,
+then the subarray between them is divisible by k.
+
+
+========================================================
+CORE MATHEMATICAL LOGIC
+========================================================
+
+Suppose:
+
+prefix1 % k = r
+prefix2 % k = r
+
+Same remainder.
+
+Then:
+
+(prefix2 - prefix1) % k = 0
+
+Meaning:
+
+subarray sum is divisible by k.
+
+
+========================================================
+WHY THIS WORKS
+========================================================
+
+Example:
+
+nums = [23,2,4,6,7]
+k = 6
+
+Prefix sums:
+
+23
+25
+29
+35
+42
+
+Now modulo:
+
+23 % 6 = 5
+25 % 6 = 1
+29 % 6 = 5
+
+Notice:
+5 appears again.
+
+That means:
+
+29 - 23 = 6
+
+Subarray:
+[2,4]
+
+6 % 6 = 0
+
+
+========================================================
+IMPORTANT PATTERN
+========================================================
+
+Whenever you see:
+
+    subarray sum
+    divisible by k
+    equal target
+    continuous range
+
+THINK:
+
+    PREFIX SUM
+
+
+========================================================
+PREFIX SUM PATTERN
+========================================================
+
+Running sum.
+
+Example:
+
+nums = [2,4,5]
+
+prefix sums:
+
+2
+6
+11
+
+Formula:
+
+subarray(i to j) =
+prefix[j] - prefix[i-1]
+
+
+========================================================
+MODULO PATTERN
+========================================================
+
+For divisibility questions:
+
+Use:
+
+    sum % k
+
+because:
+
+If remainders are same,
+difference is divisible by k.
+
+
+========================================================
+HASHMAP PATTERN
+========================================================
+
+Store:
+
+remainder -> first index
+
+Why?
+
+To quickly check whether same remainder appeared before.
+
+
+========================================================
+IMPORTANT INITIALIZATION
+========================================================
+
+map.put(0,-1);
+
+VERY IMPORTANT.
+
+Meaning:
+
+Before array starts,
+sum = 0 at imaginary index -1.
+
+Why needed?
+
+To handle subarrays starting from index 0.
+
+Example:
+
+[2,4]
+k = 6
+
+sum = 6
+remainder = 0
+
+Need previous 0 remainder already stored.
+
+So:
+
+0 -> -1
+
+
+========================================================
+WHY -1 ?
+========================================================
+
+Because array starts at index 0.
+
+Imaginary prefix before array:
+
+index = -1
+sum = 0
+
+
+========================================================
+IMPORTANT CONDITION
+========================================================
+
+if(i - map.get(rem) >= 2)
+
+Why?
+
+Problem requires:
+subarray length >= 2
+
+Explanation:
+
+If same remainder found:
+
+previous index = p
+current index = i
+
+Subarray length:
+
+i - p
+
+Need at least 2.
+
+
+========================================================
+FULL OPTIMIZED CODE
+========================================================
+
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        int[] nums = {23,2,4,6,7};
+        int k = 6;
+
+        HashMap<Integer,Integer> map = new HashMap<>();
+
+        map.put(0,-1);
+
+        int sum = 0;
+
+        for(int i=0;i<nums.length;i++){
+
+            sum += nums[i];
+
+            int rem = sum % k;
+
+            if(map.containsKey(rem)){
+
+                if(i - map.get(rem) >= 2){
+                    System.out.println(true);
+                    return;
+                }
+
+            }else{
+
+                map.put(rem,i);
+            }
+        }
+
+        System.out.println(false);
+    }
+}
+
+
+========================================================
+DRY RUN SHORT VERSION
+========================================================
+
+nums = [23,2,4,6,7]
+k = 6
+
+Initially:
+map = {0:-1}
+
+--------------------------------
+
+i=0
+sum=23
+rem=5
+
+store:
+5 -> 0
+
+--------------------------------
+
+i=1
+sum=25
+rem=1
+
+store:
+1 -> 1
+
+--------------------------------
+
+i=2
+sum=29
+rem=5
+
+5 already exists at index 0
+
+2 - 0 = 2
+
+VALID
+
+subarray:
+[2,4]
+
+
+========================================================
+TIME COMPLEXITY
+========================================================
+
+O(n)
+
+Because:
+single traversal.
+
+
+========================================================
+SPACE COMPLEXITY
+========================================================
+
+O(k) or O(n)
+
+Depending on distinct remainders.
+
+
+========================================================
+HOW TO THINK DURING INTERVIEW
+========================================================
+
+STEP 1:
+Question says:
+subarray sum
+
+Immediately think:
+PREFIX SUM
+
+--------------------------------
+
+STEP 2:
+Question says:
+divisible by k
+
+Think:
+MODULO
+
+--------------------------------
+
+STEP 3:
+Need fast lookup of previous remainder
+
+Think:
+HASHMAP
+
+--------------------------------
+
+STEP 4:
+Same remainder means:
+
+difference divisible by k
+
+--------------------------------
+
+FINAL THINKING:
+
+prefix sum
++ modulo
++ hashmap
+
+
+========================================================
+COMMON MISTAKES
+========================================================
+
+1) Using num-k
+
+Wrong:
+This checks difference between elements.
+
+NOT subarray sum.
+
+--------------------------------
+
+2) Forgetting map.put(0,-1)
+
+Then subarrays starting from 0 fail.
+
+--------------------------------
+
+3) Updating hashmap every time
+
+Wrong.
+
+Store FIRST occurrence only.
+
+Why?
+
+Need maximum distance.
+
+--------------------------------
+
+4) Forgetting length >= 2
+
+Problem specifically requires minimum size 2.
+
+
+========================================================
+IMPORTANT RELATED PATTERNS
+========================================================
+
+1) Subarray Sum Equals K
+--------------------------------
+Use:
+prefix sum + hashmap
+
+2) Count Subarrays Divisible by K
+--------------------------------
+Use:
+remainder frequency map
+
+3) Longest Subarray with Sum K
+--------------------------------
+Use:
+prefix sum + first occurrence hashmap
+
+4) Continuous Subarray Problems
+--------------------------------
+Usually:
+prefix sum
+
+5) Pair Difference Problems
+--------------------------------
+Use:
+HashSet + num-k
+
+NOT prefix sum.
+
+
+========================================================
+HOW TO IDENTIFY PREFIX SUM QUESTIONS
+========================================================
+
+Keywords:
+
+subarray
+continuous
+range sum
+sum between indices
+divisible
+equal target
+longest subarray
+count subarrays
+
+These usually indicate:
+PREFIX SUM
+
+
+========================================================
+MENTAL SHORTCUT
+========================================================
+
+SUBARRAY + SUM
+    -> PREFIX SUM
+
+DIVISIBLE BY K
+    -> MODULO
+
+FAST LOOKUP
+    -> HASHMAP
+
+SAME REMAINDER
+    -> VALID SUBARRAY
+
+
+========================================================
+VERY IMPORTANT FORMULA
+========================================================
+
+If:
+
+a % k == b % k
+
+Then:
+
+(a - b) % k == 0
+
+
+This is the ENTIRE foundation of this problem.
+
+
+========================================================
+END
+========================================================

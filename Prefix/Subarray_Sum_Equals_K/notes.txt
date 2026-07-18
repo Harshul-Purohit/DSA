@@ -1,0 +1,363 @@
+Here are clean notes you can copy and save as a `.txt` file.
+
+SUBARRAY SUM EQUALS K — IMPORTANT NOTES
+
+==================================================
+PROBLEM
+=======
+
+Given:
+nums = [1,1,1]
+k = 2
+
+Find:
+How many subarrays have sum = k
+
+Answer:
+2
+
+Subarrays:
+[1,1] -> index 0 to 1
+[1,1] -> index 1 to 2
+
+==================================================
+MAIN IDEA OF THE ALGORITHM
+==========================
+
+We use:
+
+1. Prefix Sum
+2. HashMap
+
+HashMap stores:
+
+prefixSum -> how many times this prefixSum appeared
+
+Example:
+
+{
+0=1,
+1=2,
+3=1
+}
+
+Meaning:
+prefix sum 0 appeared 1 time
+prefix sum 1 appeared 2 times
+prefix sum 3 appeared 1 time
+
+==================================================
+MOST IMPORTANT THINKING
+=======================
+
+Current sum = sum
+
+If:
+(sum - previousPrefixSum) = k
+
+Then:
+previousPrefixSum = sum - k
+
+So if map already contains:
+(sum - k)
+
+then we found a subarray with sum = k.
+
+==================================================
+VERY IMPORTANT CONFUSION I HAD
+==============================
+
+I was confused about this line:
+
+map.put(sum, map.getOrDefault(sum, 0) + 1);
+
+I thought it was related to:
+sum-k
+
+BUT IT IS NOT.
+
+These are TWO DIFFERENT THINGS.
+
+==================================================
+PART 1 -> CHECKING IF ANSWER EXISTS
+===================================
+
+This part:
+
+if(map.containsKey(sum-k)){
+count += map.get(sum-k);
+}
+
+Purpose:
+Check whether a subarray with sum = k exists.
+
+==================================================
+PART 2 -> STORING CURRENT PREFIX SUM
+====================================
+
+This part:
+
+map.put(sum, map.getOrDefault(sum,0)+1);
+
+Purpose:
+Store current prefix sum frequency.
+
+==================================================
+WHAT THIS LINE ACTUALLY MEANS
+=============================
+
+map.put(sum, map.getOrDefault(sum,0)+1);
+
+Simple meaning:
+
+Increase count/frequency of current sum by 1.
+
+==================================================
+HOW TO READ THIS LINE STEP BY STEP
+==================================
+
+Suppose:
+
+sum = 1
+
+map = {0=1}
+
+Now execute:
+
+map.put(sum, map.getOrDefault(sum,0)+1);
+
+Replace sum with 1:
+
+map.put(1, map.getOrDefault(1,0)+1);
+
+Question:
+Does map contain 1?
+
+NO.
+
+So:
+map.getOrDefault(1,0)
+
+returns:
+0
+
+Now line becomes:
+
+map.put(1,0+1);
+
+which becomes:
+
+map.put(1,1);
+
+Now map:
+
+{0=1,1=1}
+
+Meaning:
+prefix sum 1 appeared 1 time.
+
+==================================================
+IF SAME SUM COMES AGAIN
+=======================
+
+Suppose:
+
+sum = 1
+
+map = {0=1,1=1}
+
+Again run:
+
+map.put(1,map.getOrDefault(1,0)+1);
+
+Now:
+map.getOrDefault(1,0)
+
+returns:
+1
+
+because 1 already exists.
+
+Now line becomes:
+
+map.put(1,1+1);
+
+map.put(1,2);
+
+Now map:
+
+{0=1,1=2}
+
+Meaning:
+prefix sum 1 appeared 2 times.
+
+==================================================
+VERY IMPORTANT POINT
+====================
+
+This line:
+
+map.put(sum, map.getOrDefault(sum,0)+1);
+
+DOES NOT CARE whether:
+sum-k exists or not.
+
+Its only job is:
+
+Store/update current prefix sum frequency.
+
+==================================================
+WHY map.put(0,1) IS IMPORTANT
+=============================
+
+At start:
+
+map.put(0,1);
+
+Meaning:
+Before starting, prefix sum 0 appeared once.
+
+This helps when:
+current sum itself becomes equal to k.
+
+==================================================
+FULL CODE EXPLANATION
+=====================
+
+HashMap<Integer,Integer> map = new HashMap<>();
+
+Creates hashmap:
+prefixSum -> frequency
+
+---
+
+map.put(0,1);
+
+Initially:
+prefix sum 0 appeared once.
+
+---
+
+int sum = 0;
+
+Stores running prefix sum.
+
+---
+
+int count = 0;
+
+Stores final answer.
+
+---
+
+for(int num : nums)
+
+Loop through array.
+
+---
+
+sum += num;
+
+Update running prefix sum.
+
+---
+
+if(map.containsKey(sum-k)){
+count += map.get(sum-k);
+}
+
+Check:
+Have we seen prefix sum = sum-k before?
+
+If yes:
+subarray with sum k exists.
+
+---
+
+map.put(sum, map.getOrDefault(sum,0)+1);
+
+Store/update current prefix sum frequency.
+
+---
+
+return count;
+
+Return total number of valid subarrays.
+
+==================================================
+HOW TO THINK DURING INTERVIEW
+=============================
+
+Step 1:
+Think about prefix sums.
+
+Step 2:
+Ask:
+Can I know whether some previous sum helps me make k?
+
+Step 3:
+Equation:
+
+currentSum - previousSum = k
+
+So:
+
+previousSum = currentSum - k
+
+Step 4:
+Store previous sums in hashmap.
+
+==================================================
+MOST IMPORTANT THINGS TO FOCUS ON
+=================================
+
+1. Difference between:
+
+   * checking answer
+   * storing prefix sums
+
+2. Understand:
+   map stores frequencies
+
+3. Understand:
+   getOrDefault()
+
+4. Understand:
+   Why same prefix sum can appear multiple times
+
+5. Understand:
+   currentSum - previousSum = k
+
+==================================================
+getOrDefault() SIMPLE DEFINITION
+================================
+
+map.getOrDefault(key,defaultValue)
+
+Meaning:
+
+If key exists:
+return its value
+
+Else:
+return defaultValue
+
+Example:
+
+map = {1=2}
+
+map.getOrDefault(1,0)
+returns 2
+
+map.getOrDefault(5,0)
+returns 0
+
+==================================================
+FINAL ONE-LINE MEMORY TRICK
+===========================
+
+containsKey(sum-k)
+-> checking if answer exists
+
+map.put(sum, map.getOrDefault(sum,0)+1)
+-> storing current prefix sum frequency
