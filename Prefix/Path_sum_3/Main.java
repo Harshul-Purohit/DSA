@@ -1,5 +1,7 @@
 package Path_sum_3;
 
+import java.util.HashMap;
+
 // Definition for a binary tree node.
 class TreeNode {
     int val;
@@ -9,36 +11,32 @@ class TreeNode {
 }
 
 public class Main {
+   private HashMap<Long, Integer> map = new HashMap<>();
+    private int count = 0;
+
     public int pathSum(TreeNode root, int targetSum) {
-        if (root == null) return 0;
-
-        // Count paths starting from this node
-        int pathsFromRoot = countPaths(root, targetSum);
-
-        // Recursively check left and right subtrees
-        int pathsFromLeft = pathSum(root.left, targetSum);
-        int pathsFromRight = pathSum(root.right, targetSum);
-
-        // Total paths = from root + from left subtree + from right subtree
-        return pathsFromRoot + pathsFromLeft + pathsFromRight;
+        map.put(0L, 1); // base case: empty prefix
+        dfs(root, 0L, targetSum);
+        return count;
     }
 
-    // Helper function: count paths starting at a given node
-    private int countPaths(TreeNode node, int targetSum) {
-        if (node == null) return 0;
+    private void dfs(TreeNode node, long currSum, int target) {
+        if (node == null) return;
 
-        int count = 0;
+        currSum += node.val;
 
-        // If current node value matches target, we found one path
-        if (node.val == targetSum) {
-            count++;
-        }
+        // Check if there exists a prefix sum that makes current path = target
+        count += map.getOrDefault(currSum - target, 0);
 
-        // Continue searching downwards (subtract current node value)
-        count += countPaths(node.left, targetSum - node.val);
-        count += countPaths(node.right, targetSum - node.val);
+        // Store current prefix sum
+        map.put(currSum, map.getOrDefault(currSum, 0) + 1);
 
-        return count;
+        // Explore children
+        dfs(node.left, currSum, target);
+        dfs(node.right, currSum, target);
+
+        // Backtrack: remove current node’s sum before returning
+        map.put(currSum, map.get(currSum) - 1);
     }
 
     // --- For testing in VS Code ---
