@@ -1,4 +1,4 @@
-package Learning.Insertion;
+package Learning.Insertion.at_the_begning;
 
 class Node{
   int data;
